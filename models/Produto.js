@@ -1,5 +1,5 @@
 const Produto = (sequelize, DataTypes) => {
-    return sequelize.define('Produto', {
+    let produto = sequelize.define('Produto', {
         id_produto: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -12,7 +12,18 @@ const Produto = (sequelize, DataTypes) => {
         fk_categoria: DataTypes.INTEGER,
         imagem: DataTypes.STRING,
         fk_editora: DataTypes.INTEGER
-    })
+    },
+    {
+        tableName: "produto",
+        timestamps: false
+    });
+
+    produto.associate = models => {
+        produto.belongsTo(models.Editora, { foreignKey: 'id_editora', as: 'editora'});
+        produto.belongsTo(models.Categoria, { foreignKey: 'id_categoria', as: 'categoria'})
+    }
+
+    return produto;
 }
 
 module.exports = Produto;

@@ -1,5 +1,5 @@
 const Editora = (sequelize, DataTypes) => {
-    return sequelize.define('Editora', {
+    let editora = sequelize.define('Editora', {
         id_editora: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -7,7 +7,17 @@ const Editora = (sequelize, DataTypes) => {
             allowNull: false
         },
         nome: DataTypes.STRING
-    })
+    },
+    {
+        tableName: "editora",
+        timestamps: false
+    });
+
+    editora.associate = models => {
+        editora.hasMany(models.Produto, { foreignKey: 'fk_editora', as: 'produto'});
+    }
+
+    return editora;
 }
 
 module.exports = Editora;

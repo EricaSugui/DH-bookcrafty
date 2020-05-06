@@ -1,5 +1,5 @@
 const Pedido = (sequelize, DataTypes) => {
-    return sequelize.define('Pedido', {
+    let pedido =  sequelize.define('Pedido', {
         id_pedido: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -8,7 +8,17 @@ const Pedido = (sequelize, DataTypes) => {
         },
         status: DataTypes.STRING,
         fk_usuario: DataTypes.INTEGER
-    })
+    },
+    {
+        tableName: "pedido",
+        timestamps: false
+    });
+
+    pedido.associate = models => {
+        pedido.belongsTo(models.Usuario, { foreignKey: 'id_usuario', as: 'usuario'});
+    }
+
+    return pedido;
 }
 
 module.exports = Pedido;
